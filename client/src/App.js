@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
-import WeatherBox from "../component/WeatherBox";
-import WeatherButton from "../component/WeatherButton";
+import WeatherBox from "./component/WeatherBox";
+import WeatherButton from "./component/WeatherButton";
 import DotLoader from "react-spinners/DotLoader";
 import { useDispatch, useSelector } from "react-redux";
-import { weatherAction } from "../../redux/actions/weatherAction";
+import { weatherAction } from "./redux/action/weatherAction";
+import Notice from "./component/Notice";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 
 const Weather = () => {
   const [city, setCity] = useState("");
   const [background, setBackgroud] = useState();
   const cities = ["New York", "Tokyo", "Rome", "Paris"];
   const { loading, currentOrSelect, setRenderCity } = useSelector(
-    (state) => state.weather
+    (state) => state
   );
   const dispatch = useDispatch();
 
@@ -35,22 +39,23 @@ const Weather = () => {
 
   if (loading) {
     return (
-      <Container>
+      <div className="body">
         <div className="main">
           <div className="loading">
             <DotLoader color="#ffff" loading={loading} size={100} />
           </div>
           <WeatherButton cities={cities} />
         </div>
-      </Container>
+        <Notice />
+      </div>
     );
   } else {
     return (
-      <Container>
+      <div className="body">
         <div
           className="main"
           style={{
-            backgroundImage: `${background}`,
+            backgroundImage: `${background}`
           }}
         >
           <h4 className="title">Today's weather 🌎</h4>
@@ -60,7 +65,8 @@ const Weather = () => {
           />
           <WeatherButton cities={cities} />
         </div>
-      </Container>
+        <Notice />
+      </div>
     );
   }
 };

@@ -5,6 +5,7 @@ import { weatherAction } from "../redux/action/weatherAction";
 const WeatherButton = ({ cities }) => {
   const dispatch = useDispatch();
 
+
   const onSelect = (e) => {
     dispatch(weatherAction.getSelectedCityWeather(e.target.textContent));
   };
@@ -30,3 +31,5 @@ const WeatherButton = ({ cities }) => {
 };
 
 export default WeatherButton;
+
+
