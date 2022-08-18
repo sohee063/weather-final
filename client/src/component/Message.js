@@ -11,17 +11,17 @@ const Message = ({ key, item, deleteDiscussion, updateDiscussion }) => {
   const onClick = () => {
     setIsclick(!isClick);
   };
-
   const doModify = (e) => {
-    e.preventDefault();
     setIsModify(!isModify);
-    console.log("text", text);
-    updateDiscussion({ text });
+    updateDiscussion(text, e);
+  };
+
+  const changeModify = (e) => {
+    setIsModify(!isModify);
   };
 
   const onChange = (e) => {
     setText(e.target.value);
-    console.log(e.target.value);
   };
   return (
     <>
@@ -84,11 +84,11 @@ const Message = ({ key, item, deleteDiscussion, updateDiscussion }) => {
               <img width={30} src={trash} />
             </div>
             {isModify ? (
-              <div onClick={doModify}>
+              <div onClick={() => doModify(item.id)}>
                 <img width={30} src={checkbox} />
               </div>
             ) : (
-              <div onClick={doModify}>
+              <div onClick={changeModify}>
                 <img width={30} src={modify} />
               </div>
             )}

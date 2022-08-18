@@ -9,7 +9,7 @@ const Notice = () => {
 
   useEffect(() => {
     getApi();
-  }, []);
+  }, [data]);
 
   const getApi = async () => {
     let url = domain + `/blogs`;
@@ -26,6 +26,7 @@ const Notice = () => {
       author: author,
       content: bodyText
     };
+
     fetch(domain + "/blogs", {
       method: "POST",
       headers: {
@@ -40,24 +41,26 @@ const Notice = () => {
     });
   };
 
-  const updateDiscussion = async ({ bodyText }) => {
+  const updateDiscussion = async (text, id) => {
     const newDiscussion = {
+      id: id,
       createdAt: new Date().toISOString(),
-      content: bodyText
+      content: text
     };
-    console.log("나야", bodyText);
-    fetch(domain + "/blogs/${id}", {
+    fetch(domain + `/blogs/${id}`, {
       method: "PUT",
-      // headers: {
-      //   Accept: "application/json",
-      //   "Content-Type": "application/json"
-      // },
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(newDiscussion)
-    }).then((res) => {
-      if (res.status === 201) {
-        getApi();
-      }
-    });
+    })
+      .then((data) => data.json())
+      .then((res) => {
+        if (res.status === 201) {
+          getApi();
+        }
+      });
   };
 
   const deleteDiscussion = (id) => {

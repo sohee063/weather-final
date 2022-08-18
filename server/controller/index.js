@@ -18,7 +18,6 @@ const blogController = {
 
   createOne: (req, res) => {
     const { title, content, author } = req.body;
-    console.log(req.body, req.url);
     const id = parseInt(Math.random() * 10000);
     const newDiscussion = {
       id,
@@ -32,18 +31,24 @@ const blogController = {
   },
 
   updateById: (req, res) => {
-    let { id } = req.params;
-    let data = req.body;
-    let index = blogData.findIndex((el) => el.id === Number(id));
+    console.log("ㅇㅇㅇㅇ", blogData);
+    let index = blogData.findIndex((el) => el.id == req.params.id);
+    const updated = {
+      ...blogData[index],
+      ...req.body,
+      updatedAt: new Date().toISOString()
+    };
+
     if (index !== -1) {
-      blogData[index] = data;
-      res.status(200).json(blogData);
+      blogData.splice(index, 1, updated);
+      return res.status(200).json(blogData);
+    } else {
+      return res.status(404).send("Not found");
     }
   },
 
   deleteById: (req, res) => {
     let index = blogData.findIndex((el) => el.id === Number(req.params.id));
-    console.log("index", index);
     if (index !== -1) {
       blogData.splice(index, 1);
       res.status(200).json(blogData);
